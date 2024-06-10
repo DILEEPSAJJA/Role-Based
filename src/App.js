@@ -1,12 +1,14 @@
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 import StudentDashboard from './components/StudentDashboard';
 import TeacherDashboard from './components/TeacherDashboard';
-import Navbar from './components/Navbar';
+import Profile from './components/Profile'; // Import Profile component
+import Navbar from './components/Navbar'; // Import Navbar component
 import { auth, db } from './firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import {useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
 const App = () => {
@@ -29,10 +31,11 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar user={user} />
+      <Navbar user={user} /> {/* Include Navbar component */}
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} /> {/* Add Profile route */}
         {user && role === 'student' && <Route path="/dashboard" element={<StudentDashboard />} />}
         {user && role === 'teacher' && <Route path="/dashboard" element={<TeacherDashboard />} />}
       </Routes>
@@ -41,3 +44,4 @@ const App = () => {
 };
 
 export default App;
+

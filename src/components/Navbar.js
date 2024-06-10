@@ -1,6 +1,8 @@
+// Navbar.js
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate();
@@ -22,11 +24,18 @@ const Navbar = ({ user }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav ms-auto">
             {user ?
-              <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    <FaUserCircle size={24} />
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
+                </li>
+              </>
               :
               <>
                 <li className="nav-item">
