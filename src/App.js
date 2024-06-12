@@ -4,11 +4,13 @@ import Register from './components/Register';
 import Login from './components/Login';
 import StudentDashboard from './components/StudentDashboard';
 import TeacherDashboard from './components/TeacherDashboard';
-import Profile from './components/Profile';
-import Navbar from './components/Navbar';
-import TakeTest from './components/TakeTest';
-import Results from './components/Results';
-import Leaderboard from './components/Leaderboard';
+import Profile from './components/Profile'; // Import Profile component
+import Navbar from './components/Navbar'; // Import Navbar component
+import CreateTestCard from './components/CreateTestCard'; // Import CreateTestCard component
+import TakeTest from './components/TakeTest'; // Import TakeTest component
+import Results from './components/Results'; // Import Results component
+import Leaderboard from './components/QuizResults'; // Import Leaderboard component
+import QuizResults from './components/QuizResults'; // Import QuizResults component
 import { auth, db } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -32,16 +34,20 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar user={user} />
+      <Navbar user={user} /> {/* Include Navbar component */}
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} /> {/* Add Profile route */}
         {user && role === 'student' && <Route path="/dashboard" element={<StudentDashboard />} />}
-        {user && role === 'teacher' && <Route path="/dashboard" element={<TeacherDashboard />} />}
-        <Route path="/take-test/:quizId" element={<TakeTest />} />
-        <Route path="/results" element={<Results />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        {user && role === 'teacher' && (
+          <Route path="/dashboard" element={<TeacherDashboard />} />
+        )}
+        <Route path="/create-test" element={<CreateTestCard />} /> {/* Add CreateTestCard route */}
+        <Route path="/take-test/:quizId" element={<TakeTest />} /> {/* Add TakeTest route */}
+        <Route path="/results" element={<Results />} /> {/* Add Results route */}
+        <Route path="/leaderboard" element={<Leaderboard />} /> {/* Add Leaderboard route */}
+        <Route path="/quiz-results/:quizId" element={<QuizResults />} /> {/* Add QuizResults route */}
       </Routes>
     </Router>
   );
