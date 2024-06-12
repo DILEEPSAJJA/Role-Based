@@ -9,7 +9,7 @@ import Navbar from './components/Navbar'; // Import Navbar component
 import CreateTestCard from './components/CreateTestCard'; // Import CreateTestCard component
 import TakeTest from './components/TakeTest'; // Import TakeTest component
 import Results from './components/Results'; // Import Results component
-import Leaderboard from './components/QuizResults'; // Import Leaderboard component
+import EditQuiz from './components/EditQuiz'; // Import Leaderboard component
 import QuizResults from './components/QuizResults'; // Import QuizResults component
 import { auth, db } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/create-test" element={<CreateTestCard />} /> {/* Add CreateTestCard route */}
         <Route path="/take-test/:quizId" element={<TakeTest />} /> {/* Add TakeTest route */}
         <Route path="/results" element={<Results />} /> {/* Add Results route */}
-        <Route path="/leaderboard" element={<Leaderboard />} /> {/* Add Leaderboard route */}
+        <Route path="/edit-quiz/:quizId" element={<EditQuiz />} />
         <Route path="/quiz-results/:quizId" element={<QuizResults />} /> {/* Add QuizResults route */}
       </Routes>
     </Router>

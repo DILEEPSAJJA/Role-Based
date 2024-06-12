@@ -23,15 +23,16 @@ const EditQuiz = () => {
   const handleQuestionChange = (index, field, value) => {
     const newQuestions = [...quiz.questions];
     if (field === 'questionText') {
-      newQuestions[index].questionText = value;
+      newQuestions[index] = { ...newQuestions[index], questionText: value };
     } else if (field.startsWith('option')) {
       const optionIndex = parseInt(field.split('_')[1], 10);
       newQuestions[index].options[optionIndex] = value;
     } else {
-      newQuestions[index].correctAnswer = value;
+      newQuestions[index] = { ...newQuestions[index], correctAnswer: value };
     }
     setQuiz({ ...quiz, questions: newQuestions });
   };
+  
 
   const addQuestion = () => {
     const newQuestion = { questionText: '', options: ['', '', '', ''], correctAnswer: '' };
