@@ -1,8 +1,8 @@
-/*import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
-const TeacherDashboard = () => {
+const CreateTestCard = () => {
   const [quizTitle, setQuizTitle] = useState('');
   const [questions, setQuestions] = useState([
     { questionText: '', options: ['', '', '', ''], correctAnswer: '' }
@@ -92,29 +92,4 @@ const TeacherDashboard = () => {
   );
 };
 
-export default TeacherDashboard;
-*/
-
-// TeacherDashboard.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-const TeacherDashboard = () => {
-  const navigate = useNavigate();
-
-  const navigateToCreateTest = () => {
-    navigate('/create-test');
-  };
-
-  return (
-    <div className="container">
-      <h2>Teacher Dashboard</h2>
-      <button className="btn btn-primary" onClick={navigateToCreateTest}>
-        Create Quiz
-      </button>
-      {/* Other dashboard content */}
-    </div>
-  );
-};
-
-export default TeacherDashboard;
+export default CreateTestCard;
