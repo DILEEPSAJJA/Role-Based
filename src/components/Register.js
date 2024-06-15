@@ -3,6 +3,8 @@ import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -19,27 +21,49 @@ const Register = () => {
         email: user.email,
         role: role
       });
+      toast.success('Registered successfully');
       navigate('/login');
     } catch (error) {
       console.error('Error registering user:', error);
+      toast.error('Error registering user: ' + error.message);
     }
   };
 
   return (
     <div className="container">
+      <ToastContainer />
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email address</label>
-          <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="role" className="form-label">Role</label>
-          <select id="role" className="form-select" value={role} onChange={(e) => setRole(e.target.value)}>
+          <select
+            id="role"
+            className="form-select"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
           </select>

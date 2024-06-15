@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditQuiz = () => {
   const { quizId } = useParams();
@@ -32,7 +34,6 @@ const EditQuiz = () => {
     }
     setQuiz({ ...quiz, questions: newQuestions });
   };
-  
 
   const addQuestion = () => {
     const newQuestion = { questionText: '', options: ['', '', '', ''], correctAnswer: '' };
@@ -43,10 +44,11 @@ const EditQuiz = () => {
     e.preventDefault();
     try {
       await updateDoc(doc(db, 'quizzes', quizId), quiz);
-      alert('Quiz updated successfully!');
+      toast.success('Quiz updated successfully!');
       navigate('/dashboard');
     } catch (error) {
       console.error('Error updating quiz: ', error);
+      toast.error('Error updating quiz. Please try again.');
     }
   };
 
@@ -56,6 +58,7 @@ const EditQuiz = () => {
 
   return (
     <div className="container">
+      <ToastContainer /> {/* Include ToastContainer for toast notifications */}
       <h2>Edit Quiz</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

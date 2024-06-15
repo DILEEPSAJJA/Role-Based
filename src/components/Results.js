@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Results = () => {
   const location = useLocation();
@@ -14,6 +16,9 @@ const Results = () => {
   const mountRef = useRef(null);
 
   useEffect(() => {
+    // Display toast notification with the results
+    toast.info(`You got ${correctAnswers} out of ${totalQuestions} questions correct.`);
+
     const mount = mountRef.current;
 
     // Set up scene, camera, and renderer
@@ -97,6 +102,7 @@ const Results = () => {
 
   return (
     <div className="container">
+      <ToastContainer /> {/* This is the container for all toasts */}
       <h2>Quiz Results</h2>
       <p>You got {correctAnswers} out of {totalQuestions} questions correct.</p>
       <div ref={mountRef} style={{ width: '100%', height: '400px' }}></div>

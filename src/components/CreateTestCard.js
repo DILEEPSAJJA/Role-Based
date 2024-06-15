@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateTestCard = () => {
   const [quizTitle, setQuizTitle] = useState('');
@@ -30,16 +32,18 @@ const CreateTestCard = () => {
     const quiz = { title: quizTitle, questions };
     try {
       await addDoc(collection(db, 'quizzes'), quiz);
-      alert('Quiz created successfully!');
+      toast.success('Quiz created successfully!');
       setQuizTitle('');
       setQuestions([{ questionText: '', options: ['', '', '', ''], correctAnswer: '' }]);
     } catch (error) {
       console.error('Error adding quiz: ', error);
+      toast.error('Error creating quiz. Please try again.');
     }
   };
 
   return (
     <div className="container">
+      <ToastContainer /> {/* Include ToastContainer for toast notifications */}
       <h2>Create Quiz</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

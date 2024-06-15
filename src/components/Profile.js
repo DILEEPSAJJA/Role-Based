@@ -4,6 +4,8 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = ({ updateProfilePic }) => {
   const [user] = useAuthState(auth);
@@ -20,7 +22,6 @@ const Profile = ({ updateProfilePic }) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState(null);
-  const [previewURL, setPreviewURL] = useState(null); // Add a state for the image preview
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -43,9 +44,6 @@ const Profile = ({ updateProfilePic }) => {
             }
           });
           calculateProgress(profileData);
-          if (profileData.profilePic) {
-            setPreviewURL(profileData.profilePic);
-          }
         }
       }
     };
@@ -78,15 +76,15 @@ const Profile = ({ updateProfilePic }) => {
         const credential = EmailAuthProvider.credential(user.email, currentPassword);
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, newPassword);
-        alert('Password updated successfully');
+        toast.success('Password updated successfully');
         setNewPassword('');
         setCurrentPassword('');
       } catch (error) {
         console.error('Error updating password', error);
-        alert('Error updating password: ' + error.message);
+        toast.error('Error updating password: ' + error.message);
       }
     } else {
-      alert('Please fill in all the fields.');
+      toast.warn('Please fill in all the fields.');
     }
   };
 
@@ -94,11 +92,9 @@ const Profile = ({ updateProfilePic }) => {
     const file = e.target.files[0];
     if (file && file.size <= 5 * 1024 * 1024) { // Check if the file size is less than or equal to 5MB
       setFile(file);
-      setPreviewURL(URL.createObjectURL(file)); // Create a preview URL for the uploaded image
     } else {
-      alert('File size should be less than or equal to 5MB');
+      toast.warn('File size should be less than or equal to 5MB');
       setFile(null);
-      setPreviewURL(null);
     }
   };
 
@@ -111,6 +107,7 @@ const Profile = ({ updateProfilePic }) => {
         return fileURL;
       } catch (error) {
         console.error('Error uploading file:', error);
+        toast.error('Error uploading file');
         return null;
       }
     }
@@ -131,7 +128,7 @@ const Profile = ({ updateProfilePic }) => {
       if (fileURL) {
         updateProfilePic(fileURL);
       }
-      alert('Profile updated successfully');
+      toast.success('Profile updated successfully');
     }
   };
 
@@ -154,6 +151,7 @@ const Profile = ({ updateProfilePic }) => {
 
   return (
     <div className="container">
+      <ToastContainer />
       <h2>Edit Profile</h2>
       <div className="progress mb-3">
         <div
@@ -182,7 +180,12 @@ const Profile = ({ updateProfilePic }) => {
         </div>
         <div className="mb-3">
           <label htmlFor="gender" className="form-label">Gender</label>
-          <input type="text" className="form-control" id="gender" name="gender" value={profile.gender} onChange={handleChange} />
+          <select className="form-control" id="gender" name="gender" value={profile.gender} onChange={handleChange}>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
         </div>
         <div className="mb-3">
           <label htmlFor="phoneNumber" className="form-label">Phone Number</label>

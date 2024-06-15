@@ -9,13 +9,17 @@ const TeacherDashboard = () => {
 
   useEffect(() => {
     const fetchQuizzes = async () => {
-      const quizzesCollection = collection(db, 'quizzes');
-      const quizzesSnapshot = await getDocs(quizzesCollection);
-      const quizzesList = quizzesSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setQuizzes(quizzesList);
+      try {
+        const quizzesCollection = collection(db, 'quizzes');
+        const quizzesSnapshot = await getDocs(quizzesCollection);
+        const quizzesList = quizzesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setQuizzes(quizzesList);
+      } catch (error) {
+        console.error('Error fetching quizzes:', error);
+      }
     };
 
     fetchQuizzes();
